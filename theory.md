@@ -143,3 +143,13 @@ Foo.new.hello
 
 _________output_________
 Can you reach me?
+
+
+
+# 5.) What is Enumerable?
+
+Enumerable is a module that provides you methods for searching and sorting collections that you include in your classes. So if you’re writing something that has collections, you can just mix in the Enumerable module, with no need for rewriting  functionality of your object. 
+
+Some of enumerables methods are .map nad .each
+
+ [1, 2, 3].each { |number| p number * 10 }
