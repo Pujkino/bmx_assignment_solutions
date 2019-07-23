@@ -27,7 +27,7 @@ Method of superclass
 
 2.) multilevel inheritance - when class B inherits from class A, and class C inherits from class B, class C gets all properties from class B and class B gets all properties from class A. In ruby it's possible only with the use of Mixin. We create a module with it's defined methods and then we include a module inside a class.
 
-##example
+## example
 require_relative "module_ruby"
 
 <!-- example.rb -->
@@ -104,10 +104,42 @@ This is Subclass Method
     What is happening behind the scenes in each case (basic explanation)?
 
 
-#explaining A
+## explaining A
 Here we have a single-line block. An array consists of 3 elements 1,2,3. We use .each method that iterates over every single element in array, in order. Block variable - |number| - represents each element in the array. Then, each item is multiple by 10. .each method is preferred because it's more secure. Anything that exists within the block exists only within local scope.
 
-#explaining B
+## explaining B
 Number represent a block variable that iterates over every single item in array and prints out every item multiplied by 10. For loop is almost equivalent to an each loop but it does not create a new scope for local variables. There is a new unecessary line of code, as well, which makes code redundant.
 
 If the code fits on one line, then is preferrble using single-line block.
+
+
+
+# 3.) Is it possible to invoke Foo#qux method?
+    class Foo
+        private
+
+        def qux
+            puts "Can you reach me?"
+        end
+    end
+
+Invoking qux method will give us an error because qux is a private method.
+
+Private method is one of the ruby access controls that can be used only within claas definition. Accessing the private method outside the class is restricted. Keyword that defines using private method is 'private'. The only way to have external access to a private method is to call it within a public method.
+
+# accessing private method
+lass Foo
+    def hello
+        qux
+    end
+    private
+
+    def qux
+        puts "Can you reach me?"
+    end
+end
+
+Foo.new.hello
+
+_________output_________
+Can you reach me?
