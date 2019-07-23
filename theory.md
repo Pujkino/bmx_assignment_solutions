@@ -172,3 +172,13 @@ Some of enumerables methods are .map nad .each
         method-definition context.
 
     In this example we are in method context where 'self.bar' defines a class method (bar is class method of Foo), and 'self' inside class method refers to parent class object - Foo. So the output is Foo
+
+
+# 7.) In abstract, explain what Ruby does internally so that the output of the following code example is ['A', 'B', 'C'].
+
+    ["a", "b", "c"].map(&:upcase)           -> with proc
+    ["a", "b", "c"].map { |i| i.upcase }    -> as a single-line block
+
+In this example, we pass a proc to a '.map method'. A proc is an object that contains a block. Whenever we define a proc we have to prefix it's block with the ampersand and then a symbol that represents the name of the method that we want to apply on every single element within array.
+
+Instead of having a long syntax such as ["a", "b", "c"].map { |i| i.upcase }, a procs has been applied to short the code and to make our code more flexible and adaptable in future. 
