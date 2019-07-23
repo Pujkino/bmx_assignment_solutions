@@ -90,3 +90,24 @@ Dogs.new.method_1
 
 ______________output______________
 This is Subclass Method
+
+
+
+# 2.) Which iteration is more idiomatic?
+    # A
+    [1, 2, 3].each { |number| p number * 10 }
+
+    # B
+    for number in [1, 2, 3]
+        p number * 10
+    end
+    What is happening behind the scenes in each case (basic explanation)?
+
+
+#explaining A
+Here we have a single-line block. An array consists of 3 elements 1,2,3. We use .each method that iterates over every single element in array, in order. Block variable - |number| - represents each element in the array. Then, each item is multiple by 10. .each method is preferred because it's more secure. Anything that exists within the block exists only within local scope.
+
+#explaining B
+Number represent a block variable that iterates over every single item in array and prints out every item multiplied by 10. For loop is almost equivalent to an each loop but it does not create a new scope for local variables. There is a new unecessary line of code, as well, which makes code redundant.
+
+If the code fits on one line, then is preferrble using single-line block.
