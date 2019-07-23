@@ -153,3 +153,22 @@ Enumerable is a module that provides you methods for searching and sorting colle
 Some of enumerables methods are .map nad .each
 
  [1, 2, 3].each { |number| p number * 10 }
+
+
+# 6.) What will the method #bar send to the standard output? Why?
+
+    class Foo
+        def self.bar
+            puts "My name is #{self}."
+        end
+    end
+
+    Self is the “current” or “default” object that is receiving the current message. There’s always one (and only one) current object or self.
+
+    To know which object is self, we need to know what context we're in. There are 
+        top-level context, 
+        class-definition context, 
+        module-definition context,
+        method-definition context.
+
+    In this example we are in method context where 'self.bar' defines a class method (bar is class method of Foo), and 'self' inside class method refers to parent class object - Foo. So the output is Foo
