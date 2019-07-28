@@ -39,11 +39,13 @@ class Multiples
     def FirstHundredMultiples
         @nums.select do |num| 
             if  (num - @divisor_3 * (num / @divisor_3)) == 0 && (num - @divisor_5 * (num / @divisor_5) == 0)
-                puts "FizzBuzz #{num}"
+                puts "FizzBuzz"
             elsif num - @divisor_5 * (num / @divisor_5) == 0
-                puts "Buzz #{num}"
+                puts "Buzz"
             elsif num - @divisor_3 * (num / @divisor_3) == 0
-                puts "Fizz #{num}"
+                puts "Fizz"
+            else
+                puts num
             end
         end
     end
@@ -78,8 +80,9 @@ Multiples.new.FirstHundredMultiples
 #     1 2 N 
 #     LMLMLMLMM
 #     3 3 E
-
-#     MMRMMRMRRM Expected Output:
+#     MMRMMRMRRM 
+      
+#     Expected Output:
 #     1 3 N
 #     5 1 E
 
@@ -93,44 +96,59 @@ class Grid
     end
 end
 
-class RoverMove
-    attr_reader :x_cooridnate, :y_cooridnate, :grid
-    
-    def initialize(x_cooridnate, y_cooridnate, grid)
-        @x_cooridnate = x_cooridnate
-        @y_cooridnate = y_cooridnate
-        @grid = grid
+class Rover
+    attr_reader :x_coordinate, :y_coordinate, :direction
+
+    def initialize(x_coordinate, y_coordinate, direction)
+      @x_coordinate = x_coordinate
+      @y_coordinate = y_coordinate
+      @direction = direction
     end
 
-    def orientation
+    def instruction(control)
+      control.each do |input|
+        case input
+            when "L" then left
+            when "R" then right
+            when "M" then move
+        end
+      end
+        puts "rover current location: (#{@x_coordinate}, #{@y_coordinate}) #{@direction}"
+    end
+  
+    def left
         case @direction
-            when "N" then  @y_cooridnate += 1 if @y_cooridnate < @grid.max_y  
-            when "S" then  @y_cooridnate -= 1 if @y_cooridnate > 0
-            when "E" then  @x_cooridnate += 1 if @x_cooridnate < @grid.max_x 
-            when "W" then  @x_cooridnate -= 1 if @x_cooridnate > 0
+            when "N" then @direction = "W"
+            when "W" then @direction = "S"
+            when "S" then @direction = "E"
+            when "E" then @direction = "N"
         end
-        puts "current location: #{@x_cooridnate}, #{@y_cooridnate}"
     end
     
-    def movement
-        puts "start location: #{@x_cooridnate}, #{@y_cooridnate}"
-        loop do
-            puts "enter direction - N, S, E, W"
-            @direction = user_input
-            puts "press M to move"
-            break unless user_input == "M"
-                orientation
-        end
+    def right
+        case @direction
+        when "N" then @direction = "E"
+        when "E" then @direction = "S"
+        when "S" then @direction = "W"
+        when "W" then @direction = "N" 
+      end
     end
-
-    private
-    def user_input
-        gets.chomp.upcase
+  
+    def move
+        case @direction
+        when "N" then @y_coordinate += 1
+        when "E" then @x_coordinate += 1
+        when "S" then @y_coordinate -= 1
+        when "W" then @x_coordinate -= 1 
+        end
     end
 end
 
 grid = Grid.new(5,5)
-p "grid size #{grid.max_x}, #{grid.max_y}"
+puts "#{grid.max_x}, #{grid.max_y}"
 
-move = RoverMove.new(0,0,grid)
-move.movement
+mars_rover_a = Rover.new(1,2,"N")
+mars_rover_b = Rover.new(3,3,"E")
+
+mars_rover_a.instruction(["L","M","L","M","L","M","L","M","M"])
+mars_rover_b.instruction(["M","M","R","M","M","R","M","R", "R", "M"])

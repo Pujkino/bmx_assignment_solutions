@@ -145,6 +145,16 @@ _________output_________
 Can you reach me?
 
 
+# 4.) What keyword do you use when you declare String data?
+
+There are a couple of ways to create a string. One way is by calling a new method on the String class. 
+string = String.new("Hello Domagoj")
+
+But the most common and the easiest way to create a string is to assign a string to a variable name. You have to bear in mind that variable name mustn't be as same as keyword name. Keywords are certain words that are reserved for doing specific task. If you declare variable with same name as keyword, you will get an error.
+
+string = "This is string 2"
+def = "Hello" -----> program will show you an error
+
 
 # 5.) What is Enumerable?
 
