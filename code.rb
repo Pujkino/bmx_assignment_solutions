@@ -36,8 +36,8 @@ class Multiples
         @divisor_5 = 5
     end
 
-    def FirstHundredMultiples
-        @nums.select do |num| 
+    def first_hundred_multiplies
+        @nums.each do |num| 
             if  (num - @divisor_3 * (num / @divisor_3)) == 0 && (num - @divisor_5 * (num / @divisor_5) == 0)
                 puts "FizzBuzz"
             elsif num - @divisor_5 * (num / @divisor_5) == 0
@@ -51,7 +51,7 @@ class Multiples
     end
 end
 
-Multiples.new.FirstHundredMultiples
+Multiples.new.first_hundred_multiplies
 
 
 # 3.) A squad of robotic rovers are to be landed by NASA on a plateau on Mars. This plateau, which is curiously rectangular, 
@@ -97,12 +97,13 @@ class Grid
 end
 
 class Rover
-    attr_reader :x_coordinate, :y_coordinate, :direction
+    attr_reader :x_coordinate, :y_coordinate, :direction, :grid
 
-    def initialize(x_coordinate, y_coordinate, direction)
+    def initialize(x_coordinate, y_coordinate, direction, grid)
       @x_coordinate = x_coordinate
       @y_coordinate = y_coordinate
       @direction = direction
+      @grid = grid
     end
 
     def instruction(control)
@@ -135,11 +136,14 @@ class Rover
     end
   
     def move
-        case @direction
-        when "N" then @y_coordinate += 1
-        when "E" then @x_coordinate += 1
-        when "S" then @y_coordinate -= 1
-        when "W" then @x_coordinate -= 1 
+        if @direction == "N" && @y_coordinate < grid.max_y
+            @y_coordinate += 1
+        elsif @direction == "E" && @x_coordinate < grid.max_x
+            @x_coordinate += 1
+        elsif @direction == "S" && @y_coordinate > 0
+            @y_coordinate -= 1
+        elsif @direction == "W" && @y_coordinate > 0
+            @x_coordinate -= 1
         end
     end
 end
@@ -147,8 +151,8 @@ end
 grid = Grid.new(5,5)
 puts "#{grid.max_x}, #{grid.max_y}"
 
-mars_rover_a = Rover.new(1,2,"N")
-mars_rover_b = Rover.new(3,3,"E")
+mars_rover_a = Rover.new(1, 2, "N", grid)
+mars_rover_b = Rover.new(3, 3, "E", grid)
 
 mars_rover_a.instruction(["L","M","L","M","L","M","L","M","M"])
 mars_rover_b.instruction(["M","M","R","M","M","R","M","R", "R", "M"])
