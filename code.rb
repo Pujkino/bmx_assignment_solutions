@@ -114,7 +114,7 @@ class Rover
             when "M" then move
         end
       end
-        puts "rover current location: (#{@x_coordinate}, #{@y_coordinate}) #{@direction}"
+    puts "rover current location: (#{@x_coordinate}, #{@y_coordinate}) #{@direction}"
     end
   
     def left
@@ -134,11 +134,11 @@ class Rover
         when "W" then @direction = "N" 
       end
     end
-  
+
     def move
-        if @direction == "N" && @y_coordinate < grid.max_y
+        if @direction == "N" && @y_coordinate < @grid.max_y
             @y_coordinate += 1
-        elsif @direction == "E" && @x_coordinate < grid.max_x
+        elsif @direction == "E" && @x_coordinate < @grid.max_x
             @x_coordinate += 1
         elsif @direction == "S" && @y_coordinate > 0
             @y_coordinate -= 1
@@ -148,11 +148,29 @@ class Rover
     end
 end
 
+class RoverError < StandardError
+    attr_reader :rover_1, :rover_2
+
+    def initialize(rover_1, rover_2)
+      @rover_1 = rover_1
+      @rover_2 = rover_2
+    end
+    
+    def collision_error
+       if @rover_1.x_coordinate == @rover_2.x_coordinate && @rover_1.y_coordinate == @rover_2.y_coordinate
+        raise RoverError.new(@rover_1, @rover_2), "Rover collided with another rover"
+       end
+    end
+end
+
 grid = Grid.new(5,5)
 puts "#{grid.max_x}, #{grid.max_y}"
 
 mars_rover_a = Rover.new(1, 2, "N", grid)
-mars_rover_b = Rover.new(3, 3, "E", grid)
+mars_rover_b = Rover.new(1, 2, "N", grid)
 
 mars_rover_a.instruction(["L","M","L","M","L","M","L","M","M"])
-mars_rover_b.instruction(["M","M","R","M","M","R","M","R", "R", "M"])
+mars_rover_b.instruction(["L","M","L","M","L","M","L","M","M"])
+
+rover_error = RoverError.new(mars_rover_a, mars_rover_b)
+rover_error.collision_error
