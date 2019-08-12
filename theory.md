@@ -158,11 +158,22 @@ def = "Hello" -----> program will show you an error
 
 # 5.) What is Enumerable?
 
-Enumerable is a module that provides you methods for searching and sorting collections that you include in your classes. So if you’re writing something that has collections, you can just mix in the Enumerable module, with no need for rewriting  functionality of your object. 
+Enumerable is a module that provides you methods for searching and sorting collections that you include in your classes. Ruby classes that include this module are Array, Hash, Range and Set classes. So if you’re writing something that has collections, you can just mix in the Enumerable module, with no need for rewriting  functionality of your object. 
+
+The Enumerable module relies on .each method, which needs to be implemented in any class it’s included in. When called with a block on an array, the .each method will execute the block and iterate over each element in the array.
 
 Some of enumerables methods are .map nad .each
 
  [1, 2, 3].each { |number| p number * 10 }
+
+ If we call the .each method on an array without passing a block to execute for each of its elements, we’ll receive an instance of Enumerator. Instances of Enumerator describe how to iterate over an object.
+
+ [1, 2, 3].each
+
+_________output_________
+
+<Enumerator: [1, 2, 3]:each>
+
 
 
 # 6.) What will the method #bar send to the standard output? Why?
