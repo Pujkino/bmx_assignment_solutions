@@ -36,20 +36,22 @@ class Multiples
         @divisor_5 = 5
     end
 
-    def FirstHundredMultiples
-        @nums.select do |num| 
+    def first_hundred_multiplies
+        @nums.each do |num| 
             if  (num - @divisor_3 * (num / @divisor_3)) == 0 && (num - @divisor_5 * (num / @divisor_5) == 0)
-                puts "FizzBuzz #{num}"
+                puts "FizzBuzz"
             elsif num - @divisor_5 * (num / @divisor_5) == 0
-                puts "Buzz #{num}"
+                puts "Buzz"
             elsif num - @divisor_3 * (num / @divisor_3) == 0
-                puts "Fizz #{num}"
+                puts "Fizz"
+            else
+                puts num
             end
         end
     end
 end
 
-Multiples.new.FirstHundredMultiples
+Multiples.new.first_hundred_multiplies
 
 
 # 3.) A squad of robotic rovers are to be landed by NASA on a plateau on Mars. This plateau, which is curiously rectangular, 
@@ -78,8 +80,9 @@ Multiples.new.FirstHundredMultiples
 #     1 2 N 
 #     LMLMLMLMM
 #     3 3 E
-
-#     MMRMMRMRRM Expected Output:
+#     MMRMMRMRRM 
+      
+#     Expected Output:
 #     1 3 N
 #     5 1 E
 
@@ -93,44 +96,81 @@ class Grid
     end
 end
 
-class RoverMove
-    attr_reader :x_cooridnate, :y_cooridnate, :grid
-    
-    def initialize(x_cooridnate, y_cooridnate, grid)
-        @x_cooridnate = x_cooridnate
-        @y_cooridnate = y_cooridnate
-        @grid = grid
+class Rover
+    attr_reader :x_coordinate, :y_coordinate, :direction, :grid
+
+    def initialize(x_coordinate, y_coordinate, direction, grid)
+      @x_coordinate = x_coordinate
+      @y_coordinate = y_coordinate
+      @direction = direction
+      @grid = grid
     end
 
-    def orientation
+    def instruction(control)
+      control.each do |input|
+        case input
+            when "L" then left
+            when "R" then right
+            when "M" then move
+        end
+      end
+    puts "rover current location: (#{@x_coordinate}, #{@y_coordinate}) #{@direction}"
+    end
+  
+    def left
         case @direction
-            when "N" then  @y_cooridnate += 1 if @y_cooridnate < @grid.max_y  
-            when "S" then  @y_cooridnate -= 1 if @y_cooridnate > 0
-            when "E" then  @x_cooridnate += 1 if @x_cooridnate < @grid.max_x 
-            when "W" then  @x_cooridnate -= 1 if @x_cooridnate > 0
+            when "N" then @direction = "W"
+            when "W" then @direction = "S"
+            when "S" then @direction = "E"
+            when "E" then @direction = "N"
         end
-        puts "current location: #{@x_cooridnate}, #{@y_cooridnate}"
     end
     
-    def movement
-        puts "start location: #{@x_cooridnate}, #{@y_cooridnate}"
-        loop do
-            puts "enter direction - N, S, E, W"
-            @direction = user_input
-            puts "press M to move"
-            break unless user_input == "M"
-                orientation
-        end
+    def right
+        case @direction
+        when "N" then @direction = "E"
+        when "E" then @direction = "S"
+        when "S" then @direction = "W"
+        when "W" then @direction = "N" 
+      end
     end
 
-    private
-    def user_input
-        gets.chomp.upcase
+    def move
+        if @direction == "N" && @y_coordinate < @grid.max_y
+            @y_coordinate += 1
+        elsif @direction == "E" && @x_coordinate < @grid.max_x
+            @x_coordinate += 1
+        elsif @direction == "S" && @y_coordinate > 0
+            @y_coordinate -= 1
+        elsif @direction == "W" && @y_coordinate > 0
+            @x_coordinate -= 1
+        end
+    end
+end
+
+class RoverError < StandardError
+    attr_reader :rover_1, :rover_2
+
+    def initialize(rover_1, rover_2)
+      @rover_1 = rover_1
+      @rover_2 = rover_2
+    end
+    
+    def collision_error
+       if @rover_1.x_coordinate == @rover_2.x_coordinate && @rover_1.y_coordinate == @rover_2.y_coordinate
+        raise RoverError.new(@rover_1, @rover_2), "Rover collided with another rover"
+       end
     end
 end
 
 grid = Grid.new(5,5)
-p "grid size #{grid.max_x}, #{grid.max_y}"
+puts "#{grid.max_x}, #{grid.max_y}"
 
-move = RoverMove.new(0,0,grid)
-move.movement
+mars_rover_a = Rover.new(1, 2, "N", grid)
+mars_rover_b = Rover.new(1, 2, "N", grid)
+
+mars_rover_a.instruction(["L","M","L","M","L","M","L","M","M"])
+mars_rover_b.instruction(["L","M","L","M","L","M","L","M","M"])
+
+rover_error = RoverError.new(mars_rover_a, mars_rover_b)
+rover_error.collision_error

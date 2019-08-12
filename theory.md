@@ -145,14 +145,35 @@ _________output_________
 Can you reach me?
 
 
+# 4.) What keyword do you use when you declare String data?
+
+There are a couple of ways to create a string. One way is by calling a new method on the String class. 
+string = String.new("Hello Domagoj")
+
+But the most common and the easiest way to create a string is to assign a string to a variable name. You have to bear in mind that variable name mustn't be as same as keyword name. Keywords are certain words that are reserved for doing specific task. If you declare variable with same name as keyword, you will get an error.
+
+string = "This is string 2"
+def = "Hello" -----> program will show you an error
+
 
 # 5.) What is Enumerable?
 
-Enumerable is a module that provides you methods for searching and sorting collections that you include in your classes. So if you’re writing something that has collections, you can just mix in the Enumerable module, with no need for rewriting  functionality of your object. 
+Enumerable is a module that provides you methods for searching and sorting collections that you include in your classes. Ruby classes that include this module are Array, Hash, Range and Set classes. So if you’re writing something that has collections, you can just mix in the Enumerable module, with no need for rewriting  functionality of your object. 
+
+The Enumerable module relies on .each method, which needs to be implemented in any class it’s included in. When called with a block on an array, the .each method will execute the block and iterate over each element in the array.
 
 Some of enumerables methods are .map nad .each
 
  [1, 2, 3].each { |number| p number * 10 }
+
+ If we call the .each method on an array without passing a block to execute for each of its elements, we’ll receive an instance of Enumerator. Instances of Enumerator describe how to iterate over an object.
+
+ [1, 2, 3].each
+
+_________output_________
+
+<Enumerator: [1, 2, 3]:each>
+
 
 
 # 6.) What will the method #bar send to the standard output? Why?
